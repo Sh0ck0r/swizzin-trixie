@@ -122,3 +122,46 @@ box install xmrig
 ```
 
 The amount you choose to donate to me is up to you, though the minimum is 1.0. If you need help in setting up your own wallet, check out the [Monero Project](https://getmonero.org).
+
+
+# 🚀 Swizzin – Debian 13 "Trixie" Edition
+
+A fully modified and Trixie-compatible version of Swizzin, with support for:
+
+- ✅ Kernel 6.7+ (tested with Liquorix)
+- ✅ NVIDIA A30 GPUs, Docker, TensorRT/LLMs
+- ✅ Emby, Jellyfin, SABnzbd with full rar/unrar support
+- ✅ Usenet + Torrent stack with full automation
+- ✅ Fully scriptable and reproducible install flow
+
+---
+
+## 📦 Installation
+
+```bash
+# 1. Upload the archive
+scp swizzin-trixie-modified.tar.gz youruser@yourserver:~
+
+# 2. Extract and run
+tar -xzf swizzin-trixie-modified.tar.gz
+cd swizzin
+sudo ./setup.sh --skip-github-update --user youruser --pass yourpass --enable-trixie
+```
+
+---
+
+## 📚 SABnzbd: Install rar/unrar
+
+```bash
+cd extras
+bash rar-install.sh
+```
+
+---
+
+## 💻 Tested On:
+- Debian 13 “Trixie”
+- Kernel 6.14 Liquorix
+- Dual AMD EPYC 7402
+- NVIDIA A30 GPUs
+
