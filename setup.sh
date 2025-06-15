@@ -44,9 +44,19 @@ function _source_setup() {
         fi
         echo "Best of luck and please follow the contribution guidelines cheerio"
     else
-        echo -e "...\tCloning swizzin repo to localhost"
-        git clone https://github.com/swizzin/swizzin.git /etc/swizzin >> ${log} 2>&1
-        echo -e "\tSwizzin cloned!"
+        if [[ $SKIP_GITHUB_UPDATE == "true" ]]; then
+            if [[ -d /etc/swizzin && -d /etc/swizzin/.git ]]; then
+                echo -e "...\tSkipping GitHub update as requested - using existing swizzin repo"
+            else
+                echo -e "...\tNo existing swizzin repo found, cloning is required"
+                git clone https://github.com/swizzin/swizzin.git /etc/swizzin >> ${log} 2>&1
+                echo -e "\tSwizzin cloned!"
+            fi
+        else
+            echo -e "...\tCloning swizzin repo to localhost"
+            git clone https://github.com/swizzin/swizzin.git /etc/swizzin >> ${log} 2>&1
+            echo -e "\tSwizzin cloned!"
+        fi
     fi
 
     ln -s /etc/swizzin/scripts/ /usr/local/bin/swizzin
@@ -109,6 +119,18 @@ function _option_parse() {
             --rmgrsec)
                 rmgrsec=yes
                 echo_info "OVH Kernel nuke = $rmgrsec"
+                ;;
+            --skip-github-update)
+                SKIP_GITHUB_UPDATE=true
+                echo_info "GitHub update will be skipped"
+                ;;
+            --enable-trixie)
+                ENABLE_TRIXIE=true
+                echo_info "Trixie support enabled"
+                ;;
+            --disable-trixie)
+                DISABLE_TRIXIE=true
+                echo_info "Trixie support disabled"
                 ;;
             --env)
                 shift
@@ -198,7 +220,20 @@ _os() {
         echo_error "Your distribution ($distribution) is not supported. Swizzin requires Ubuntu or Debian."
         exit 1
     fi
-    if [[ ! $codename =~ ^(focal|bullseye|jammy|bookworm|noble)$ ]]; then
+    
+    # Handle Trixie support based on flags
+    if [[ $codename == "trixie" ]]; then
+        if [[ $DISABLE_TRIXIE == "true" ]]; then
+            echo_error "Trixie support has been disabled. Your release ($codename) of $distribution is not supported."
+            exit 1
+        elif [[ $ENABLE_TRIXIE != "true" ]]; then
+            echo_error "Trixie support requires --enable-trixie flag. Your release ($codename) of $distribution is not supported without explicit enablement."
+            exit 1
+        fi
+    fi
+    
+    # Standard supported releases (excluding trixie which is handled above)
+    if [[ ! $codename =~ ^(focal|bullseye|jammy|bookworm|noble)$ ]] && [[ $codename != "trixie" ]]; then
         echo_error "Your release ($codename) of $distribution is not supported."
         exit 1
     fi

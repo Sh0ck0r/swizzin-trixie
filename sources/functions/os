@@ -20,6 +20,7 @@ export -f _os_distro
 # - `bookworm`
 # - `bullseye`
 # - `jammy`
+# - `trixie`
 # - etc.
 _os_codename() {
     source /etc/os-release

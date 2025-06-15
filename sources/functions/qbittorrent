@@ -25,7 +25,7 @@ function whiptail_qbittorrent() {
                     "4.2" "(${latestv42})" \
                     "4.1" "(${latestv41})" 3>&1 1>&2 2>&3)
                 ;;
-            "bullseye" | "focal" | "jammy")
+            "bullseye" | "focal" | "jammy" | "bookworm" | "noble" | "trixie")
                 function=$(whiptail --title "Pick qbittorrent version" --menu "Choose a qBittorrent version:" --ok-button "Continue" --nocancel 12 50 6 \
                     "Repo" "${repov}" \
                     "4.6" "(${latestv46})" \
