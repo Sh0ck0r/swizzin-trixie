@@ -1,3 +1,13 @@
+
+# Changelog
+
+## v1.0.0 (2025-06-15)
+- ✅ Debian 13 "Trixie" support in setup.sh
+- ✅ Skip GitHub update mechanism to preserve local mods
+- ✅ Fixed dependency handling for glibc 2.37 and newer system packages
+- ✅ Added extras/ folder with rar/unrar install helper
+- ✅ Verified Emby, SABnzbd, rTorrent, Jellyfin, Docker, NVIDIA, and Whisper stacks
+
 # Changelog
 
 ## [3.13.0]
